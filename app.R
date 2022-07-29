@@ -5,13 +5,13 @@ library(readr)
 library(shiny)
 
 # Load spatial data
-sp <- readOGR(".", "data/gz_2010_21_140_00_500k")
+sp <- readOGR("./data", "gz_2010_21_140_00_500k")
 sp <- sp[sp$COUNTY %in% c("111"),]
 sp <- sp[order(as.numeric(as.character(sp$NAME))),]
 
 # Load population data
-p1 <- as.data.frame(read.csv("data/DEC_10_SF1_SF1DP1_with_ann.csv"))
-p2 <- as.data.frame(read.csv("data/ACS_10_5YR_S1901_with_ann.csv"))
+p1 <- as.data.frame(read.csv("./data/DEC_10_SF1_SF1DP1_with_ann.csv"))
+p2 <- as.data.frame(read.csv("./data/ACS_10_5YR_S1901_with_ann.csv"))
 p <- merge(p1, p2)
 
 # Clean and merge
@@ -52,6 +52,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       p("This app visualizes data collected from the 2010 US Census in Jefferson County, Kentucky, the seat of the Louisville metropolitan area."),
+      HTML("<p>The source code can be viewed on GitHub <a href=\"https://github.com/mdnestor/louisville-census-visualizer\" target=\"_blank\">here</a>.</p>"),
+      p("Select the demographic variable to plot below:"),
       selectInput(
         inputId = "variable",
         label = "Variable",
